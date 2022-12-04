@@ -14,7 +14,7 @@ export default function App() {
   return (
     <Center position="relative">
       <VStack
-        spacing={{ base: "2", sm: "4" }}
+        spacing="4"
         py={{ base: "2", sm: "8" }}
         px={{ base: "2", sm: "4" }}
         maxW="md"

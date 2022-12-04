@@ -10,7 +10,7 @@ export function ScoreCardButtons() {
   const evaluated = YahtzeeUtils.evaluateHand(context);
 
   return (
-    <Grid templateColumns="1fr 1fr" gap={{ base: "1", sm: "4" }} w="full">
+    <Grid templateColumns="1fr 1fr" gap={{ base: "2", sm: "4" }} w="full">
       {(
         Object.entries(evaluated) as [keyof typeof evaluated, number | null][]
       ).map(([key, val]) => {

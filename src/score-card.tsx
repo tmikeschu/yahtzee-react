@@ -3,7 +3,7 @@ import { Button, Grid, GridItem, HStack, Text } from "@chakra-ui/react";
 import { useYahtzeeStore } from "./machine";
 import { YahtzeeUtils } from "./utils";
 
-export function Lower() {
+export function ScoreCard() {
   const { state, send } = useYahtzeeStore();
   const { context } = state;
   const evaluated = YahtzeeUtils.evaluateHand(context);
@@ -11,15 +11,10 @@ export function Lower() {
   return (
     <Grid templateColumns="1fr 1fr" gap={{ base: "1", sm: "4" }} w="full">
       {(
-        Object.entries(evaluated.lower) as [
-          keyof typeof evaluated.lower,
-          number | null
-        ][]
+        Object.entries(evaluated) as [keyof typeof evaluated, number | null][]
       ).map(([key, val]) => {
         const isUsed =
-          context.scoreCard.lower[
-            key as keyof typeof context.scoreCard.lower
-          ] !== null;
+          context.scoreCard[key as keyof typeof context.scoreCard] !== null;
         const isDisabled = !context.hand || isUsed;
         const label = YahtzeeUtils.getLabel(key);
         const isYahtzee = YahtzeeUtils.handIsYahtzee(context.hand);
@@ -35,9 +30,8 @@ export function Lower() {
               onClick={() =>
                 send({
                   type: "SET_SCORE",
-                  level: "lower",
-                  [key]: val,
                   isYahtzee,
+                  [key]: val,
                 })
               }
             >

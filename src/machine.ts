@@ -1,5 +1,3 @@
-import { match } from "ts-pattern";
-import produce from "immer";
 import {
   assign,
   createMachine,
@@ -14,16 +12,7 @@ import create, { StoreApi } from "zustand";
 type Event =
   | { type: "ROLL" | "RESET" }
   | { type: "SELECT_DIE"; index: number }
-  | ({
-      type: "SET_SCORE";
-      level: "upper";
-      isYahtzee?: boolean;
-    } & Partial<ScoreCard["upper"]>)
-  | ({
-      type: "SET_SCORE";
-      level: "lower";
-      isYahtzee?: boolean;
-    } & Partial<ScoreCard["lower"]>);
+  | ({ type: "SET_SCORE"; isYahtzee?: boolean } & Partial<ScoreCard>);
 
 export const yahtzeeMachine = createMachine(
   {
@@ -31,12 +20,13 @@ export const yahtzeeMachine = createMachine(
     tsTypes: {} as import("./machine.typegen").Typegen0,
     schema: {
       events: {} as Event,
-      context: {} as Pick<YahtzeeContext, "scoreCard" | "hand" | "turn">,
+      context: {} as YahtzeeContext,
     },
     context: {
       turn: 0,
       scoreCard: YahtzeeUtils.makeInitialScoreCard(),
       hand: null,
+      yahtzeeCount: 0,
     },
     initial: "idle",
     on: {
@@ -94,46 +84,32 @@ export const yahtzeeMachine = createMachine(
               value: YahtzeeUtils.getRandomRoll(),
             }))
           ).map((d) =>
-            d.selected ? d : { ...d, value: YahtzeeUtils.getRandomRoll() }
+            d.selected ? d : { ...d, value: 6 ?? YahtzeeUtils.getRandomRoll() }
           ) as typeof hand;
         },
       }),
       selectDie: assign({
         hand: (ctx, e) => {
           const { hand } = ctx;
-          const { index: i } = e;
-          return produce<typeof hand>(hand, (draft) => {
-            if (!draft) return;
-            draft[i].selected = !draft[i].selected;
+
+          hand?.forEach((d, index) => {
+            if (index === e.index) {
+              d.selected = !d.selected;
+            }
           });
+
+          return hand;
         },
       }),
       setScore: assign({
         turn: (_ctx, _evt) => 0,
         hand: (_ctx, _evt) => null,
+        yahtzeeCount: (ctx, evt) => {
+          return evt.isYahtzee ? ctx.yahtzeeCount + 1 : ctx.yahtzeeCount;
+        },
         scoreCard: (ctx, evt) => {
-          const { isYahtzee } = evt;
-          const { scoreCard } = ctx;
-
-          return produce(scoreCard, (draft) => {
-            if (isYahtzee) {
-              draft.yahtzeeCount += 1;
-            }
-            match(evt)
-              .with(
-                { level: "upper" },
-                ({ isYahtzee, level, type, ...rest }) => {
-                  draft.upper = { ...draft.upper, ...rest };
-                }
-              )
-              .with(
-                { level: "lower" },
-                ({ isYahtzee, level, type, ...rest }) => {
-                  draft.lower = { ...draft.lower, ...rest };
-                }
-              )
-              .otherwise(() => {});
-          });
+          const { isYahtzee, type: _, ...rest } = evt;
+          return Object.assign(ctx.scoreCard, rest);
         },
       }),
       reset: assign({

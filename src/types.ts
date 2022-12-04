@@ -1,15 +1,35 @@
 export type Tuple5<T> = [T, T, T, T, T];
 
-export interface ScoreCard {
-  upper: {
-    ones: number | null;
-    twos: number | null;
-    threes: number | null;
-    fours: number | null;
-    fives: number | null;
-    sixes: number | null;
-  };
-  lower: {
+export const UPPER_KEYS = [
+  "ones",
+  "twos",
+  "threes",
+  "fours",
+  "fives",
+  "sixes",
+] as const;
+export type UpperKey = typeof UPPER_KEYS[number];
+export type UpperScoreCard = Record<UpperKey, number | null>;
+
+export const LOWER_KEYS = [
+  "threeOfAKind",
+  "fourOfAKind",
+  "fullHouse",
+  "smallStraight",
+  "largeStraight",
+  "yahtzee",
+  "chance",
+] as const;
+export type LowerKey = typeof LOWER_KEYS[number];
+
+type ValidateKeys<
+  K,
+  T extends keyof T extends K ? (K extends keyof T ? unknown : never) : never
+> = T;
+
+export type LowerScoreCard = ValidateKeys<
+  LowerKey,
+  {
     threeOfAKind: number | null;
     fourOfAKind: number | null;
     fullHouse: number | null;
@@ -17,28 +37,14 @@ export interface ScoreCard {
     largeStraight: 40 | 0 | null;
     yahtzee: 50 | 0 | null;
     chance: number | null;
-  };
-  yahtzeeCount: number;
-}
+  }
+>;
+
+export interface ScoreCard extends UpperScoreCard, LowerScoreCard {}
 
 export interface YahtzeeContext {
   hand: Tuple5<{ value: number; selected: boolean }> | null;
   turn: number;
   scoreCard: ScoreCard;
-}
-
-export interface YahtzeeStore extends YahtzeeContext {
-  roll: () => void;
-  select: (n: number) => void;
-  setUpper: <K extends keyof ScoreCard["upper"]>(
-    key: K,
-    value: ScoreCard["upper"][K],
-    isYahtzee?: boolean
-  ) => void;
-  setLower: <K extends keyof ScoreCard["lower"]>(
-    key: K,
-    value: ScoreCard["lower"][K],
-    isYahtzee?: boolean
-  ) => void;
-  reset: () => void;
+  yahtzeeCount: number;
 }

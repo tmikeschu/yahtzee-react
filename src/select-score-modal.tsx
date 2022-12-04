@@ -11,7 +11,6 @@ import {
 import { useHotkeys } from "react-hotkeys-hook";
 import { useYahtzeeStore } from "./machine";
 import Select, { createFilter } from "react-select";
-import { match } from "ts-pattern";
 import { YahtzeeUtils } from "./utils";
 
 export const SelectScoreModal = () => {
@@ -29,40 +28,16 @@ export const SelectScoreModal = () => {
   } = useYahtzeeStore();
   const isYahtzee = YahtzeeUtils.handIsYahtzee(context.hand);
   const evaluated = YahtzeeUtils.evaluateHand(context);
-  const upperEntries = (
-    Object.entries(evaluated.upper) as [
-      keyof typeof evaluated.upper,
-      number | null
-    ][]
+  const entries = (
+    Object.entries(evaluated) as [keyof typeof evaluated, number | null][]
   ).filter(
-    ([key]) =>
-      context.scoreCard.upper[key as keyof typeof context.scoreCard.upper] ===
-      null
+    ([key]) => context.scoreCard[key as keyof typeof context.scoreCard] === null
   );
-  const lowerEntries = (
-    Object.entries(evaluated.lower) as [
-      keyof typeof evaluated.lower,
-      number | null
-    ][]
-  ).filter(
-    ([key]) =>
-      context.scoreCard.lower[key as keyof typeof context.scoreCard.lower] ===
-      null
-  );
-  const options = [
-    ...upperEntries.map(([key, val]) => ({
-      type: "upper" as const,
-      value: key,
-      label: `${YahtzeeUtils.getLabel(key)}: ${val ?? 0}`,
-      score: val,
-    })),
-    ...lowerEntries.map(([key, val]) => ({
-      type: "lower" as const,
-      value: key,
-      label: `${YahtzeeUtils.getLabel(key)}: ${val ?? 0}`,
-      score: val,
-    })),
-  ];
+  const options = entries.map(([key, val]) => ({
+    value: key,
+    label: `${YahtzeeUtils.getLabel(key)}: ${val ?? 0}`,
+    score: val,
+  }));
 
   return (
     <Modal {...disclosure} initialFocusRef={inputRef}>
@@ -82,24 +57,12 @@ export const SelectScoreModal = () => {
               matchFrom: "any",
             })}
             onChange={(v) => {
-              match(v)
-                .with({ type: "upper" }, ({ value: key, score }) =>
-                  send({
-                    type: "SET_SCORE",
-                    level: "upper",
-                    [key]: score,
-                    isYahtzee,
-                  })
-                )
-                .with({ type: "lower" }, ({ value: key, score }) =>
-                  send({
-                    type: "SET_SCORE",
-                    level: "lower",
-                    [key]: score,
-                    isYahtzee,
-                  })
-                )
-                .run();
+              if (!v) return;
+              send({
+                type: "SET_SCORE",
+                [v.value]: v.score,
+                isYahtzee,
+              });
               disclosure.onClose();
             }}
           />

@@ -16,7 +16,6 @@
     "@types/react-dom": "^18.0.9",
     "@xstate/react": "^3.0.1",
     "framer-motion": "^7.6.18",
-    "immer": "^9.0.16",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hotkeys-hook": "^4.0.4",

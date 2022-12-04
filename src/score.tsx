@@ -20,14 +20,14 @@ export function Score() {
           <Stat size={{ base: "sm", sm: "md" }} textAlign="center">
             <StatLabel>Upper</StatLabel>
             <StatNumber>
-              {YahtzeeUtils.getUpperScore(context.scoreCard.upper)}
+              {YahtzeeUtils.getUpperScore(context.scoreCard)}
             </StatNumber>
           </Stat>
 
           <Stat size={{ base: "sm", sm: "md" }} textAlign="center">
             <StatLabel>Upper Bonus</StatLabel>
             <StatNumber>
-              {YahtzeeUtils.getUpperBonus(context.scoreCard.upper)}
+              {YahtzeeUtils.getUpperBonus(context.scoreCard)}
             </StatNumber>
           </Stat>
         </StatGroup>
@@ -38,7 +38,7 @@ export function Score() {
           <Stat size={{ base: "sm", sm: "md" }} textAlign="center">
             <StatLabel>Lower</StatLabel>
             <StatNumber>
-              {YahtzeeUtils.getLowerScore(context.scoreCard.lower)}
+              {YahtzeeUtils.getLowerScore(context.scoreCard)}
             </StatNumber>
           </Stat>
 

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { VStack, Heading, Center, Box } from "@chakra-ui/react";
-import { Upper } from "./upper";
-import { Lower } from "./lower";
+import { ScoreCard } from "./score-card";
 import { Hand } from "./hand";
 import { Score } from "./score";
 import { GameMenu } from "./game-menu";
@@ -21,14 +20,8 @@ export default function App() {
         w="full"
       >
         <Heading color="blue.500">Yahtzee</Heading>
-
         <Hand />
-
-        <VStack spacing={{ base: "2", sm: "4" }} w="full">
-          <Upper />
-          <Lower />
-        </VStack>
-
+        <ScoreCard />
         <Score />
       </VStack>
 

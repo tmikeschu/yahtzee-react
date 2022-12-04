@@ -5,6 +5,8 @@ import {
   Tuple5,
   UPPER_KEYS,
   LOWER_KEYS,
+  UpperKey,
+  LowerKey,
 } from "./types";
 
 function getRandomIntInclusive(min: number, max: number) {
@@ -177,6 +179,18 @@ function handIsYahtzee(hand: YahtzeeContext["hand"]) {
   return new Set(hand?.map(({ value }) => value)).size === 1;
 }
 
+function isUpperKey(key: keyof ScoreCard): key is UpperKey {
+  return UPPER_KEYS.includes(key as UpperKey);
+}
+
+function isLowerKey(key: keyof ScoreCard): key is LowerKey {
+  return LOWER_KEYS.includes(key as LowerKey);
+}
+
+function getKeyLevel(key: keyof ScoreCard): "upper" | "lower" {
+  return isLowerKey(key) ? "lower" : "upper";
+}
+
 export const YahtzeeUtils = {
   getLowerScore,
   getUpperScore,
@@ -193,4 +207,7 @@ export const YahtzeeUtils = {
   getRandomRotationSequence,
   getRandomXTranslation,
   getRandomYTranslation,
+  isUpperKey,
+  isLowerKey,
+  getKeyLevel,
 };

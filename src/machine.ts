@@ -84,7 +84,7 @@ export const yahtzeeMachine = createMachine(
               value: YahtzeeUtils.getRandomRoll(),
             }))
           ).map((d) =>
-            d.selected ? d : { ...d, value: 6 ?? YahtzeeUtils.getRandomRoll() }
+            d.selected ? d : { ...d, value: YahtzeeUtils.getRandomRoll() }
           ) as typeof hand;
         },
       }),

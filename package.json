@@ -38,8 +38,7 @@
     "workbox-strategies": "^6.5.4",
     "workbox-streams": "^6.5.4",
     "xstate": "^4.34.0",
-    "zustand": "^4.1.4",
-    "zustand-middleware-xstate": "^2.0.0"
+    "zustand": "^4.1.4"
   },
   "scripts": {
     "start": "react-scripts start",

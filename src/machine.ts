@@ -1,10 +1,15 @@
 import { match } from "ts-pattern";
 import produce from "immer";
-import { assign, createMachine } from "xstate";
+import {
+  assign,
+  createMachine,
+  interpret,
+  InterpreterFrom,
+  StateFrom,
+} from "xstate";
 import { YahtzeeContext, ScoreCard } from "./types";
 import { YahtzeeUtils } from "./utils";
-import create from "zustand";
-import xstate from "zustand-middleware-xstate";
+import create, { StoreApi } from "zustand";
 
 type Event =
   | { type: "ROLL" | "RESET" }
@@ -142,4 +147,31 @@ export const yahtzeeMachine = createMachine(
   }
 );
 
-export const useYahtzeeStore = create(xstate(yahtzeeMachine));
+type Interpreter = InterpreterFrom<typeof yahtzeeMachine>;
+
+type Store = {
+  state: StateFrom<typeof yahtzeeMachine>;
+  send: Interpreter["send"];
+  service: Interpreter;
+};
+
+export const useYahtzeeStore = create(
+  (set: StoreApi<Store>["setState"]): Store => {
+    const service = interpret(yahtzeeMachine)
+      .onTransition((state) => {
+        const initialStateChanged =
+          state.changed === undefined && Object.keys(state.children).length;
+
+        if (state.changed || initialStateChanged) {
+          set({ state });
+        }
+      })
+      .start();
+
+    return {
+      state: service.getSnapshot(),
+      send: service.send,
+      service,
+    };
+  }
+);

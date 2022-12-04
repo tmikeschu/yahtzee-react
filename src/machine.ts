@@ -74,7 +74,9 @@ export const yahtzeeMachine = createMachine(
         ],
       },
       gameOver: {
-        type: "final",
+        on: {
+          ROLL: { target: "rolling", actions: ["roll"] },
+        },
       },
     },
   },

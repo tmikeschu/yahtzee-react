@@ -18,8 +18,12 @@ function getRandomRotationSequence() {
   );
 }
 
-function getRandomTranslation() {
-  return getRandomIntInclusive(-20, 20);
+function getRandomXTranslation() {
+  return getRandomIntInclusive(-10, 10);
+}
+
+function getRandomYTranslation() {
+  return getRandomIntInclusive(-20, -1);
 }
 
 function getRandomRoll() {
@@ -206,5 +210,6 @@ export const YahtzeeUtils = {
   makeInitialScoreCard,
   getRandomRotation,
   getRandomRotationSequence,
-  getRandomTranslation,
+  getRandomXTranslation,
+  getRandomYTranslation,
 };

@@ -29,8 +29,8 @@ const DieSquare: React.FC<SquareProps> = (props) => {
         isLoading
           ? {
               rotate: YahtzeeUtils.getRandomRotationSequence(),
-              x: YahtzeeUtils.getRandomTranslation(),
-              y: YahtzeeUtils.getRandomTranslation(),
+              x: YahtzeeUtils.getRandomXTranslation(),
+              y: YahtzeeUtils.getRandomYTranslation(),
             }
           : {
               rotate: 0,

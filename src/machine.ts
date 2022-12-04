@@ -116,7 +116,7 @@ export const yahtzeeMachine = createMachine(
           const { scoreCard } = ctx;
 
           return produce(scoreCard, (draft) => {
-            if (scoreCard.lower.yahtzee !== null && isYahtzee) {
+            if (isYahtzee) {
               draft.yahtzeeCount += 1;
             }
             match(evt)

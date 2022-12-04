@@ -4,7 +4,6 @@ import { YahtzeeUtils } from "./utils";
 
 export function useYahtzeeHotkeys() {
   const store = useYahtzeeStore();
-  console.log(store.state.value);
   const isGameOver = YahtzeeUtils.isGameOver(store.state.context);
   useHotkeys(
     "r",

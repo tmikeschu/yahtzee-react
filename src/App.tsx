@@ -1,5 +1,5 @@
 import * as React from "react";
-import { VStack, Heading, Center, Box } from "@chakra-ui/react";
+import { VStack, Heading, Center, Box, Show, Hide } from "@chakra-ui/react";
 import { ScoreCardButtons } from "./score-card-buttons";
 import { Hand } from "./hand";
 import { ScoreSummary } from "./score-summary";
@@ -24,11 +24,17 @@ export default function App() {
           Yahtzee
         </Heading>
 
+        <Show above="sm">
+          <Hand />
+        </Show>
+
         <ScoreSummary />
 
         <ScoreCardButtons />
 
-        <Hand />
+        <Hide above="sm">
+          <Hand />
+        </Hide>
 
         <GameButton />
       </VStack>

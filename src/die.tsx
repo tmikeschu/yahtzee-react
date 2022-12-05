@@ -1,5 +1,11 @@
 import * as React from "react";
-import { Box, Circle, Square, SquareProps, StyleProps } from "@chakra-ui/react";
+import {
+  Button,
+  Circle,
+  Square,
+  SquareProps,
+  StyleProps,
+} from "@chakra-ui/react";
 import { MotionBox } from "./motion-box";
 import { YahtzeeUtils } from "./utils";
 
@@ -42,7 +48,7 @@ const DieSquare: React.FC<SquareProps> = (props) => {
     >
       <Square
         position="relative"
-        size="12"
+        size="14"
         borderWidth="1px"
         borderStyle="solid"
         borderRadius="base"
@@ -149,9 +155,9 @@ export const Die: React.FC<{
       value={{ dotColor, borderColor, isSelected, isLoading }}
     >
       {C ? (
-        <Box role="button" onClick={onClick}>
+        <Button variant="unstyled" onClick={onClick} h="auto">
           <C />
-        </Box>
+        </Button>
       ) : null}
     </DieContext.Provider>
   );

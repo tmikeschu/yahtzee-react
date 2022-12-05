@@ -24,11 +24,11 @@ export default function App() {
           Yahtzee
         </Heading>
 
-        <Hand />
+        <ScoreSummary />
 
         <ScoreCardButtons />
 
-        <ScoreSummary />
+        <Hand />
 
         <GameButton />
       </VStack>

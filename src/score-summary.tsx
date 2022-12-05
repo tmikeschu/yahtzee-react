@@ -51,6 +51,9 @@ export function ScoreSummary() {
   );
   return (
     <Card as={VStack} py="2" px="4" w="full">
+      <VStack>
+        <Box>{total}</Box>
+      </VStack>
       <HStack justifyContent="space-evenly" w="full">
         <VStack>
           {upper}
@@ -62,10 +65,6 @@ export function ScoreSummary() {
           {yahtzeeBonus}
         </VStack>
       </HStack>
-
-      <VStack>
-        <Box>{total}</Box>
-      </VStack>
     </Card>
   );
 }

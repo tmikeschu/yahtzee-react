@@ -11,22 +11,22 @@ export const GameButton = () => {
 
   return match({ isGameOver, turn: context.turn })
     .with({ isGameOver: true }, () => (
-      <Button colorScheme="red" onClick={() => send("RESET")}>
+      <Button size="lg" colorScheme="red" onClick={() => send("RESET")}>
         Play again
       </Button>
     ))
     .with({ turn: 0 }, () => (
-      <Button colorScheme="blue" onClick={() => send("ROLL")}>
+      <Button size="lg" colorScheme="blue" onClick={() => send("ROLL")}>
         Roll to play
       </Button>
     ))
     .with({ turn: 3 }, () => (
-      <Button colorScheme="gray" isDisabled>
+      <Button size="lg" colorScheme="gray" isDisabled>
         Select score
       </Button>
     ))
     .otherwise(({ turn }) => (
-      <Button colorScheme="blue" onClick={() => send("ROLL")}>
+      <Button size="lg" colorScheme="blue" onClick={() => send("ROLL")}>
         Roll {turn}
       </Button>
     ));

@@ -57,11 +57,11 @@ export function ScoreSummary() {
       <HStack justifyContent="space-evenly" w="full">
         <VStack>
           {upper}
-          {upperBonus}
+          {lower}
         </VStack>
 
         <VStack>
-          {lower}
+          {upperBonus}
           {yahtzeeBonus}
         </VStack>
       </HStack>
@@ -70,9 +70,7 @@ export function ScoreSummary() {
 }
 
 function Stat(props: StackProps) {
-  return (
-    <HStack w="full" fontSize="sm" justifyContent="space-between" {...props} />
-  );
+  return <HStack w="full" justifyContent="space-between" {...props} />;
 }
 
 function StatLabel(props: TextProps) {

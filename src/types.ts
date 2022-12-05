@@ -42,8 +42,10 @@ export type LowerScoreCard = ValidateKeys<
 
 export interface ScoreCard extends UpperScoreCard, LowerScoreCard {}
 
+type SelectableDie = { value: number; selected: boolean };
+
 export interface YahtzeeContext {
-  hand: Tuple5<{ value: number; selected: boolean }> | null;
+  hand: Tuple5<SelectableDie> | null;
   turn: number;
   scoreCard: ScoreCard;
   yahtzeeCount: number;

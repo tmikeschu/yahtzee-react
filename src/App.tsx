@@ -12,7 +12,7 @@ export default function App() {
   useYahtzeeHotkeys();
 
   return (
-    <Center position="relative">
+    <Center position="relative" h="100vh" overflowY="scroll">
       <VStack
         spacing="4"
         py={{ base: "2", sm: "8" }}

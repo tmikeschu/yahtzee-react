@@ -11,7 +11,7 @@ export const GameButton = () => {
 
   return match({ isGameOver, turn: context.turn })
     .with({ isGameOver: true }, () => (
-      <Button size="lg" colorScheme="red" onClick={() => send("RESET")}>
+      <Button size="lg" colorScheme="red" onClick={() => send("ROLL")}>
         Play again
       </Button>
     ))

@@ -65,7 +65,7 @@ export const yahtzeeMachine = createMachine(
       },
       gameOver: {
         on: {
-          ROLL: { target: "rolling", actions: ["roll"] },
+          ROLL: { target: "rolling", actions: ["reset", "roll"] },
         },
       },
     },
@@ -116,6 +116,7 @@ export const yahtzeeMachine = createMachine(
         turn: (_ctx, _evt) => 0,
         hand: (_ctx, _evt) => null,
         scoreCard: (_ctx, _evt) => YahtzeeUtils.makeInitialScoreCard(),
+        yahtzeeCount: (_ctx, _evt) => 0,
       }),
     },
     guards: {

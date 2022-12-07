@@ -12,22 +12,22 @@ export interface Typegen0 {
   invokeSrcNameMap: {};
   missingImplementations: {
     actions: never;
-    services: never;
-    guards: never;
     delays: never;
+    guards: never;
+    services: never;
   };
   eventsCausingActions: {
-    reset: "RESET";
+    reset: "RESET" | "ROLL";
     roll: "ROLL";
     selectDie: "SELECT_DIE";
     setScore: "SET_SCORE";
   };
-  eventsCausingServices: {};
+  eventsCausingDelays: {};
   eventsCausingGuards: {
     canRoll: "ROLL";
     isGameOver: "";
   };
-  eventsCausingDelays: {};
+  eventsCausingServices: {};
   matchesStates:
     | "gameOver"
     | "idle"

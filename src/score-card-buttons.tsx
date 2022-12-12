@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Button, Grid, GridItem, HStack, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Grid,
+  GridItem,
+  HStack,
+  Skeleton,
+  Text,
+} from "@chakra-ui/react";
 import { useYahtzeeStore } from "./machine";
 import { YahtzeeUtils } from "./utils";
 import { match } from "ts-pattern";
@@ -8,6 +15,7 @@ export function ScoreCardButtons() {
   const { state, send } = useYahtzeeStore();
   const { context } = state;
   const evaluated = YahtzeeUtils.evaluateHand(context);
+  const isRolling = state.matches("rolling");
 
   return (
     <Grid templateColumns="1fr 1fr" gap={{ base: "2", sm: "4" }} w="full">
@@ -51,7 +59,11 @@ export function ScoreCardButtons() {
                 >
                   {label}
                 </Text>
-                <Text>{context.hand || val !== null ? val ?? 0 : "-"}</Text>
+                {isRolling && !isUsed ? (
+                  <Skeleton>00</Skeleton>
+                ) : (
+                  <Text>{context.hand || val !== null ? val ?? 0 : "-"}</Text>
+                )}
               </HStack>
             </Button>
           </GridItem>

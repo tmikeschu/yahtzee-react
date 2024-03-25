@@ -132,10 +132,18 @@ type Store = {
   state: StateFrom<typeof yahtzeeMachine>;
   send: Interpreter["send"];
   service: Interpreter;
+  persist: () => void;
 };
 
 export const useYahtzeeStore = create(
-  (set: StoreApi<Store>["setState"]): Store => {
+  (set: StoreApi<Store>["setState"], get): Store => {
+    let persistedState: StateFrom<typeof yahtzeeMachine> | undefined;
+    try {
+      persistedState = JSON.parse(localStorage.getItem("yahtzee") || "null");
+    } catch (e) {
+      console.error(e);
+    }
+
     const service = interpret(yahtzeeMachine)
       .onTransition((state) => {
         const initialStateChanged =
@@ -145,12 +153,16 @@ export const useYahtzeeStore = create(
           set({ state });
         }
       })
-      .start();
+      .start(persistedState);
 
     return {
       state: service.getSnapshot(),
       send: service.send,
       service,
+      persist: () => {
+        const state = service.getSnapshot();
+        localStorage.setItem("yahtzee", JSON.stringify(state));
+      },
     };
   }
 );

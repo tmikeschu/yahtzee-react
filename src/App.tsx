@@ -7,8 +7,10 @@ import { GameMenu } from "./game-menu";
 import { SelectScoreModal } from "./select-score-modal";
 import { useYahtzeeHotkeys } from "./use-yahtzee-hotkeys";
 import { GameButton } from "./game-button";
+import { usePersist } from "./use-persist";
 
 export default function App() {
+  usePersist();
   useYahtzeeHotkeys();
 
   return (

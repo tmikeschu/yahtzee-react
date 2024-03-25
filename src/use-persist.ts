@@ -7,10 +7,19 @@ export function usePersist() {
       useYahtzeeStore.getState().persist();
     };
 
-    window.addEventListener("beforeunload", handler);
+    const events = [
+      [window, "beforeunload"],
+      [document, "visibilitychange"],
+    ] as const;
+
+    events.forEach(([obj, event]) => {
+      obj.addEventListener(event, handler);
+    });
 
     return () => {
-      window.removeEventListener("beforeunload", handler);
+      events.forEach(([obj, event]) => {
+        obj.removeEventListener(event, handler);
+      });
     };
   }, []);
 }

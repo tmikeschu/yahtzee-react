@@ -9,6 +9,9 @@ export function usePersist() {
 
     const events = [
       [window, "beforeunload"],
+      [window, "unload"],
+      [window, "blur"],
+      [window, "pagehide"],
       [document, "visibilitychange"],
     ] as const;
 

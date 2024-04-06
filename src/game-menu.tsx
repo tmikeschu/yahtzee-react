@@ -15,8 +15,15 @@ import {
   ModalFooter,
   Button,
   VStack,
+  useColorMode,
 } from "@chakra-ui/react";
-import { SettingsIcon, WarningIcon, QuestionIcon } from "@chakra-ui/icons";
+import {
+  SettingsIcon,
+  WarningIcon,
+  QuestionIcon,
+  SunIcon,
+  MoonIcon,
+} from "@chakra-ui/icons";
 import { useYahtzeeStore } from "./machine";
 import { useHotkeys } from "react-hotkeys-hook";
 import { KeyboardShortcutTable } from "./keyboard-shortcut-table";
@@ -34,6 +41,8 @@ export function GameMenu() {
     menuBtnRef.current?.click();
   });
 
+  const { colorMode, toggleColorMode } = useColorMode();
+
   return (
     <>
       <Menu {...menuDisclosure}>
@@ -41,6 +50,12 @@ export function GameMenu() {
         <MenuList>
           <MenuItem icon={<QuestionIcon />} onClick={helpDisclosure.onOpen}>
             Help
+          </MenuItem>
+          <MenuItem
+            icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
+            onClick={toggleColorMode}
+          >
+            {colorMode === "dark" ? "Light theme" : "Dark theme"}
           </MenuItem>
           <MenuItem
             onClick={() => store.send("RESET")}

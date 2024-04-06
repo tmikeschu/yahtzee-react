@@ -5,6 +5,7 @@ import {
   Square,
   SquareProps,
   StyleProps,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { MotionBox } from "./motion-box";
 import { YahtzeeUtils } from "./utils";
@@ -146,10 +147,11 @@ export const Die: React.FC<{
   onClick,
   isSelected = false,
   isLoading = false,
-  dotColor = "gray.800",
+  dotColor: dotColorProp = "gray.800",
   borderColor = "gray.500",
 }) => {
   const C = DICE[children - 1];
+  const dotColor = useColorModeValue(dotColorProp, "gray.100");
   return (
     <DieContext.Provider
       value={{ dotColor, borderColor, isSelected, isLoading }}

@@ -8,6 +8,7 @@ import {
 import { YahtzeeContext, ScoreCard } from "./types";
 import { YahtzeeUtils } from "./utils";
 import create, { StoreApi } from "zustand";
+import { toast } from "./toast";
 
 type Event =
   | { type: "ROLL" | "RESET" }
@@ -64,6 +65,7 @@ export const yahtzeeMachine = createMachine(
         ],
       },
       gameOver: {
+        entry: ["gameOverToast"],
         on: {
           ROLL: { target: "rolling", actions: ["reset", "roll"] },
         },
@@ -118,6 +120,14 @@ export const yahtzeeMachine = createMachine(
         scoreCard: (_ctx, _evt) => YahtzeeUtils.makeInitialScoreCard(),
         yahtzeeCount: (_ctx, _evt) => 0,
       }),
+      gameOverToast: (ctx) => {
+        toast({
+          status: "info",
+          title: "Game Over",
+          description: `Total score: ${YahtzeeUtils.getTotalScore(ctx)}`,
+          isClosable: true,
+        });
+      },
     },
     guards: {
       canRoll: (ctx, _e) => ctx.turn < 3,

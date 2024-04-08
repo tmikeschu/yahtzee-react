@@ -2,12 +2,11 @@ import * as React from "react";
 import { Button } from "@chakra-ui/react";
 import { useYahtzeeStore } from "./machine";
 import { match } from "ts-pattern";
-import { YahtzeeUtils } from "./utils";
 
 export const GameButton = () => {
   const { state, send } = useYahtzeeStore();
   const { context } = state;
-  const isGameOver = YahtzeeUtils.isGameOver(context);
+  const isGameOver = state.matches("gameOver");
 
   return match({ isGameOver, turn: context.turn })
     .with({ isGameOver: true }, () => (
